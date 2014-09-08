@@ -1,4 +1,5 @@
 # depslib dependency file v1.0
-1410080376 source:d:\mycodes\cc150\cc150\main.cpp
+1410145994 source:d:\mycodes\cc150\cc150\main.cpp
 	<iostream>
+	<string.h>
 
