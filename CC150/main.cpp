@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <cstdlib>
 
 using namespace std;
 
@@ -7,35 +8,49 @@ void reverseString(char *str);
 
 void setMatrixRowColToZero(int **pArray, int M, int N);
 
+/*
+Given a circular linked list, implement an algorithm which returns node at the begin-
+ning of the loop
+DEFINITION
+Circular linked list: A (corrupt) linked list in which a node¡¯s next pointer points to an
+earlier node, so as to make a loop in the linked list
+EXAMPLE
+input: A -> B -> C -> D -> E -> C [the same C as earlier]
+output: C
+*/
+struct Node
+{
+    int     value;
+    Node*   next;
+};
+
+struct Node * FindLoopPort(Node* pHead);
+
 int main()
 {
-    int a[4][3] = {{1,2,3},
-                   {2,0,5},
-                   {3,2,0},
-                   {4,7,8}
-                    };
+    struct Node head;
+    head.value = 1;
+    head.next = NULL;
 
-    cout << "the original array:" << endl;
-    for(int i = 0; i < 4; i++)
+    struct Node *p = &head;
+    for(int i = 0; i < 3; i++)
     {
-        for(int j = 0; j < 3; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << endl;
+        int data;
+        cin >> data;
+
+        struct Node * nd = (Node*)malloc(sizeof(Node));
+        nd->value = data;
+        nd->next = NULL;
+
+        p->next = nd;
+        p = nd;
     }
 
-    setMatrixRowColToZero((int **)a, 4, 3);
+    p->next = head.next;
 
-    cout << "now the array is:" << endl;
-    for(int i = 0; i < 4; i++)
-    {
-        for(int j = 0; j < 3; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << endl;
-    }
+    struct Node * firstNode = FindLoopPort(&head);
+
+    cout << firstNode->value << endl;
 
     return 0;
 }
@@ -113,4 +128,32 @@ void reverseString(char *str)
         *p = *q;
         *q = temp;
     }
+}
+
+struct Node * FindLoopPort(Node* pHead)
+{
+    Node* pSlow, *pFast;
+    pSlow = pFast = pHead;
+
+    while(pFast != NULL && pFast->next != NULL)
+    {
+        pSlow = pSlow->next;
+        pFast= pFast->next->next;
+
+        if(pSlow == pFast)
+            break;
+    }
+
+    if(pFast == NULL || pFast->next == NULL)
+        return NULL;
+
+    pSlow = pHead;
+
+    while(pSlow != pFast)
+    {
+        pSlow = pSlow->next;
+        pFast = pFast->next;
+    }
+
+    return pSlow;
 }

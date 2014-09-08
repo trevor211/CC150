@@ -1,5 +1,6 @@
 # depslib dependency file v1.0
-1410145994 source:d:\mycodes\cc150\cc150\main.cpp
+1410157769 source:d:\mycodes\cc150\cc150\main.cpp
 	<iostream>
 	<string.h>
+	<cstdlib>
 
